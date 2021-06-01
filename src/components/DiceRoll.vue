@@ -4,6 +4,7 @@
     <div
       style="font-size: 32px"
       v-for="(n, index) in rolledNumbers"
+      v-bind:test="rolledNumbers"
       :key="index"
     >
       {{ n.unicode + ": " + n.value }}
@@ -17,7 +18,11 @@
 export default {
   name: "DiceRoll",
 
-  props: {},
+  props: {
+    test: {
+      type: Object,
+    }
+  },
 
   methods: {
     rollDice() {
