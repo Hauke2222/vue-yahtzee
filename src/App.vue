@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <HelloWorld msg="Yahtzee scoreblad" />
-    <Score />
-    <DiceRoll />
+    <Score v-bind="" />
+    <DiceRoll @clicked="passData" />
   </div>
 </template>
 
@@ -17,6 +17,16 @@ export default {
     HelloWorld,
     DiceRoll,
     Score,
+  },
+  methods: {
+    passData(payload) {
+      this.rolledNumbers = payload;
+    },
+  },
+  data() {
+    return {
+      rolledNumbers: [],
+    };
   },
 };
 </script>

@@ -92,6 +92,8 @@ export default {
   name: "Score",
 
   methods: {},
+
+  props: {},
 };
 </script>
 

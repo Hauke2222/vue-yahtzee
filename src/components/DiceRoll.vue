@@ -4,13 +4,19 @@
     <div
       style="font-size: 32px"
       v-for="(n, index) in rolledNumbers"
-      v-bind:test="rolledNumbers"
       :key="index"
     >
       {{ n.unicode + ": " + n.value }}
     </div>
     <br />
-    <button @click="rollDice">Rol dobbelstenen</button>
+    <button
+      @click="
+        rollDice();
+        passDataToParent();
+      "
+    >
+      Rol dobbelstenen
+    </button>
   </div>
 </template>
 
@@ -18,13 +24,12 @@
 export default {
   name: "DiceRoll",
 
-  props: {
-    test: {
-      type: Object,
-    }
-  },
+  props: {},
 
   methods: {
+    passDataToParent() {
+      this.$emit("clicked", this.rolledNumbers);
+    },
     rollDice() {
       this.resetRolledNumbers();
       for (let i = 0; i < this.numberOfDices; i++) {
