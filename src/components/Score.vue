@@ -50,7 +50,7 @@
         <tr>
           <td>3 of a kind</td>
           <td>Totaal van alle stenen</td>
-          <td></td>
+          <td>{{ threeOfAKind }}</td>
         </tr>
         <tr>
           <td>Carré</td>
@@ -94,6 +94,29 @@ export default {
   methods: {},
 
   props: {},
+
+  computed: {
+    sumOfRolledNumbers() {
+      return this.rolledNumbers
+        .map((rolledNumber) => rolledNumber.value)
+        .reduce((total, amount) => total + amount, 0);
+    },
+    //calculateTopSide() {},
+    //threeOfAKind() {},
+  },
+
+  mounted() {
+    this.$root.$on("clicked", (rolledNumbers) => {
+      this.rolledNumbers = rolledNumbers;
+      console.log(this.rolledNumbers);
+    });
+  },
+
+  data() {
+    return {
+      rolledNumbers: [],
+    };
+  },
 };
 </script>
 

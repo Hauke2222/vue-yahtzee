@@ -12,7 +12,7 @@
     <button
       @click="
         rollDice();
-        passDataToParent();
+        passDataToScoreComponent();
       "
     >
       Rol dobbelstenen
@@ -27,9 +27,10 @@ export default {
   props: {},
 
   methods: {
-    passDataToParent() {
-      this.$emit("clicked", this.rolledNumbers);
+    passDataToScoreComponent() {
+      this.$root.$emit("clicked", this.rolledNumbers);
     },
+
     rollDice() {
       this.resetRolledNumbers();
       for (let i = 0; i < this.numberOfDices; i++) {
