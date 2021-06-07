@@ -50,37 +50,37 @@
         <tr>
           <td>3 of a kind</td>
           <td>Totaal van alle stenen</td>
-          <td>{{ threeOfAKind }}</td>
+          <td id="align-right">{{ threeOfAKind }}</td>
         </tr>
         <tr>
           <td>Carré</td>
           <td>Totaal van alle stenen</td>
-          <td></td>
+          <td id="align-right">{{ fourOfAKind }}</td>
         </tr>
         <tr>
           <td>Full House</td>
           <td>25 punten</td>
-          <td></td>
+          <td id="align-right">{{ fullHouse }}</td>
         </tr>
         <tr>
           <td>Kleine Straat</td>
           <td>30 punten</td>
-          <td></td>
+          <td id="align-right"></td>
         </tr>
         <tr>
           <td>Grote Straat</td>
           <td>40 punten</td>
-          <td></td>
+          <td id="align-right"></td>
         </tr>
         <tr>
           <td>Yahtzee</td>
           <td>50 punten</td>
-          <td></td>
+          <td id="align-right"></td>
         </tr>
         <tr>
           <td>Chance</td>
           <td>Totaal 5 stenen</td>
-          <td></td>
+          <td id="align-right">{{ sumOfRolledNumbers }}</td>
         </tr>
       </thead>
     </table>
@@ -98,17 +98,54 @@ export default {
   computed: {
     sumOfRolledNumbers() {
       return this.rolledNumbers
-        .map((rolledNumber) => rolledNumber.value)
+        .map((rolledNumber) => rolledNumber.value * rolledNumber.eyes)
         .reduce((total, amount) => total + amount, 0);
     },
+
     //calculateTopSide() {},
-    //threeOfAKind() {},
+
+    threeOfAKind() {
+      if (
+        this.rolledNumbers.filter((rolledNumber) => rolledNumber.value >= 3)
+          .length != 0
+      ) {
+        return this.sumOfRolledNumbers;
+      }
+      return 0;
+    },
+
+    fourOfAKind() {
+      if (
+        this.rolledNumbers.filter((rolledNumber) => rolledNumber.value >= 4)
+          .length != 0
+      ) {
+        return this.sumOfRolledNumbers;
+      }
+      return 0;
+    },
+
+    fullHouse() {
+      if (
+        this.rolledNumbers.filter((rolledNumber) => rolledNumber.value == 3)
+          .length != 0 &&
+        this.rolledNumbers.filter((rolledNumber) => rolledNumber.value == 2)
+          .length != 0
+      ) {
+        return 25;
+      }
+      return 0;
+    },
+
+    //smallStraight() {},
+
+    //largeStraight() {},
+
+    //yahtzee() {},
   },
 
   mounted() {
     this.$root.$on("clicked", (rolledNumbers) => {
       this.rolledNumbers = rolledNumbers;
-      console.log(this.rolledNumbers);
     });
   },
 
@@ -135,5 +172,8 @@ th,
 td {
   border: 1px solid lightgray;
   text-align: left;
+}
+#align-right {
+  text-align: right;
 }
 </style>
