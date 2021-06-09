@@ -55,17 +55,17 @@
         <tr>
           <td>Carré</td>
           <td>Totaal van alle stenen</td>
-          <td id="align-right">{{ fourOfAKind }}</td>
+          <!-- <td id="align-right">{{ fourOfAKind }}</td> -->
         </tr>
         <tr>
           <td>Full House</td>
           <td>25 punten</td>
-          <td id="align-right">{{ fullHouse }}</td>
+          <!-- <td id="align-right">{{ fullHouse }}</td> -->
         </tr>
         <tr>
           <td>Kleine Straat</td>
           <td>30 punten</td>
-          <td id="align-right"></td>
+          <!-- <td id="align-right">{{ smallStraight }}</td> -->
         </tr>
         <tr>
           <td>Grote Straat</td>
@@ -97,44 +97,28 @@ export default {
 
   computed: {
     sumOfRolledNumbers() {
-      return this.rolledNumbers
-        .map((rolledNumber) => rolledNumber.value * rolledNumber.eyes)
-        .reduce((total, amount) => total + amount, 0);
+      // return this.rolledNumbers
+      //   .map((this.rolledNumber) => rolledNumber.value * rolledNumber.eyes)
+      //   .reduce((total, amount) => total + amount, 0);
+      let sum = 0;
+      for (const item in this.rolledNumbers) {
+        sum += this.rolledNumbers[item] * item;
+      }
+      return sum;
     },
 
     //calculateTopSide() {},
 
     threeOfAKind() {
-      if (
-        this.rolledNumbers.filter((rolledNumber) => rolledNumber.value >= 3)
-          .length != 0
-      ) {
+      if (Object.entries(this.rolledNumbers).filter(([key]) => key >= 3)) {
         return this.sumOfRolledNumbers;
       }
       return 0;
     },
 
-    fourOfAKind() {
-      if (
-        this.rolledNumbers.filter((rolledNumber) => rolledNumber.value >= 4)
-          .length != 0
-      ) {
-        return this.sumOfRolledNumbers;
-      }
-      return 0;
-    },
+    //fourOfAKind() {},
 
-    fullHouse() {
-      if (
-        this.rolledNumbers.filter((rolledNumber) => rolledNumber.value == 3)
-          .length != 0 &&
-        this.rolledNumbers.filter((rolledNumber) => rolledNumber.value == 2)
-          .length != 0
-      ) {
-        return 25;
-      }
-      return 0;
-    },
+    //fullHouse() {},
 
     //smallStraight() {},
 

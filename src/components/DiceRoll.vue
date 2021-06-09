@@ -6,7 +6,7 @@
       v-for="(n, index) in rolledNumbers"
       :key="index"
     >
-      {{ n.unicode + ": " + n.value }}
+      {{ unicodes[index - 1] + ": " + n }}
     </div>
     <br />
     <button
@@ -35,18 +35,18 @@ export default {
       this.resetRolledNumbers();
       for (let i = 0; i < this.numberOfDices; i++) {
         this.dices[i] = Math.floor(Math.random() * 6) + 1;
-        this.rolledNumbers[this.dices[i] - 1].value++;
+        this.rolledNumbers[this.dices[i]]++;
       }
     },
     resetRolledNumbers() {
-      this.rolledNumbers = [
-        { eyes: 1, value: 0, unicode: "\u2680" },
-        { eyes: 2, value: 0, unicode: "\u2681" },
-        { eyes: 3, value: 0, unicode: "\u2682" },
-        { eyes: 4, value: 0, unicode: "\u2683" },
-        { eyes: 5, value: 0, unicode: "\u2684" },
-        { eyes: 6, value: 0, unicode: "\u2685" },
-      ];
+      this.rolledNumbers = {
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+      };
     },
   },
   created() {
@@ -58,6 +58,7 @@ export default {
       dices: [],
       numberOfDices: 5,
       rolledNumbers: [],
+      unicodes: ["\u2680", "\u2681", "\u2682", "\u2683", "\u2684", "\u2685"],
     };
   },
 };
