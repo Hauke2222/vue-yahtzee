@@ -55,17 +55,17 @@
         <tr>
           <td>Carré</td>
           <td>Totaal van alle stenen</td>
-          <!-- <td id="align-right">{{ fourOfAKind }}</td> -->
+          <td id="align-right">{{ fourOfAKind }}</td>
         </tr>
         <tr>
           <td>Full House</td>
           <td>25 punten</td>
-          <!-- <td id="align-right">{{ fullHouse }}</td> -->
+          <td id="align-right">{{ fullHouse }}</td>
         </tr>
         <tr>
           <td>Kleine Straat</td>
           <td>30 punten</td>
-          <!-- <td id="align-right">{{ smallStraight }}</td> -->
+          <td id="align-right">{{ smallStraight }}</td>
         </tr>
         <tr>
           <td>Grote Straat</td>
@@ -75,7 +75,7 @@
         <tr>
           <td>Yahtzee</td>
           <td>50 punten</td>
-          <td id="align-right"></td>
+          <td id="align-right">{{ yahtzee }}</td>
         </tr>
         <tr>
           <td>Chance</td>
@@ -110,32 +110,65 @@ export default {
     //calculateTopSide() {},
 
     threeOfAKind() {
-      if (Object.entries(this.rolledNumbers).filter(([key]) => key >= 3)) {
+      if (Object.values(this.rolledNumbers).find((element) => element >= 3)) {
         return this.sumOfRolledNumbers;
       }
       return 0;
     },
 
-    //fourOfAKind() {},
+    fourOfAKind() {
+      if (Object.values(this.rolledNumbers).find((element) => element >= 4)) {
+        return this.sumOfRolledNumbers;
+      }
+      return 0;
+    },
 
-    //fullHouse() {},
+    fullHouse() {
+      if (
+        Object.values(this.rolledNumbers).find((element) => element == 3) &&
+        Object.values(this.rolledNumbers).find((element) => element == 2)
+      ) {
+        return 25;
+      }
+      return 0;
+    },
 
-    //smallStraight() {},
+    smallStraight() {
+      console.log(
+        ["1234", "2345", "3456"].indexOf(this.dicesString > -1) ? 30 : 0
+      );
+      console.log(this.dices);
+      return ["1234", "2345", "3456"].indexOf(this.dicesString > -1) ? 30 : 0;
+    },
+
+    dicesString() {
+      return this.dices
+        .slice()
+        .sort()
+        .join("");
+    },
 
     //largeStraight() {},
 
-    //yahtzee() {},
+    yahtzee() {
+      if (Object.values(this.rolledNumbers).find((element) => element == 5)) {
+        return this.sumOfRolledNumbers;
+      }
+      return 0;
+    },
   },
 
   mounted() {
-    this.$root.$on("clicked", (rolledNumbers) => {
+    this.$root.$on("clicked", (rolledNumbers, dices) => {
       this.rolledNumbers = rolledNumbers;
+      this.dices = dices;
     });
   },
 
   data() {
     return {
       rolledNumbers: [],
+      dices: [],
     };
   },
 };
