@@ -65,12 +65,12 @@
         <tr>
           <td>Kleine Straat</td>
           <td>30 punten</td>
-          <td id="align-right">{{ smallStraight }}</td>
+          <td id="align-right">{{ smallStraight() }}</td>
         </tr>
         <tr>
           <td>Grote Straat</td>
           <td>40 punten</td>
-          <td id="align-right"></td>
+          <td id="align-right">{{ largeStraight() }}</td>
         </tr>
         <tr>
           <td>Yahtzee</td>
@@ -91,7 +91,27 @@
 export default {
   name: "Score",
 
-  methods: {},
+  methods: {
+    //calculateTopSide() {},
+
+    smallStraight() {
+      //return ["1234", "2345", "3456"].includes(this.dicesString) ? 30 : 0;
+
+      let x = /1234|2345|3456/.test(this.dicesString().replace(/(.)\1/, "$1"));
+      return x ? 30 : 0;
+    },
+
+    largeStraight() {
+      let x = /12345|23456/.test(this.dicesString().replace(/(.)\1/, "$1"));
+      return x ? 40 : 0;
+    },
+    dicesString() {
+      return this.dices
+        .slice()
+        .sort()
+        .join("");
+    },
+  },
 
   props: {},
 
@@ -106,8 +126,6 @@ export default {
       }
       return sum;
     },
-
-    //calculateTopSide() {},
 
     threeOfAKind() {
       if (Object.values(this.rolledNumbers).find((element) => element >= 3)) {
@@ -132,23 +150,6 @@ export default {
       }
       return 0;
     },
-
-    smallStraight() {
-      console.log(
-        ["1234", "2345", "3456"].indexOf(this.dicesString > -1) ? 30 : 0
-      );
-      console.log(this.dices);
-      return ["1234", "2345", "3456"].indexOf(this.dicesString > -1) ? 30 : 0;
-    },
-
-    dicesString() {
-      return this.dices
-        .slice()
-        .sort()
-        .join("");
-    },
-
-    //largeStraight() {},
 
     yahtzee() {
       if (Object.values(this.rolledNumbers).find((element) => element == 5)) {

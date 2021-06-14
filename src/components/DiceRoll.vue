@@ -29,7 +29,6 @@ export default {
   methods: {
     passDataToScoreComponent() {
       this.$root.$emit("clicked", this.rolledNumbers, this.dices);
-      //this.$root.$emit("clicked", this.dices);
     },
 
     rollDice() {
