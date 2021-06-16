@@ -11,32 +11,32 @@
         <tr>
           <td>Enen</td>
           <td>Totaal alle enen</td>
-          <td></td>
+          <td id="align-right">{{ calculateTopSide(1) }}</td>
         </tr>
         <tr>
           <td>Tweeën</td>
           <td>Totaal alle tweeën</td>
-          <td></td>
+          <td id="align-right">{{ calculateTopSide(2) }}</td>
         </tr>
         <tr>
           <td>Drieën</td>
           <td>Totaal alle drieën</td>
-          <td></td>
+          <td id="align-right">{{ calculateTopSide(3) }}</td>
         </tr>
         <tr>
           <td>Vieren</td>
           <td>Totaal alle vieren</td>
-          <td></td>
+          <td id="align-right">{{ calculateTopSide(4) }}</td>
         </tr>
         <tr>
           <td>Vijven</td>
           <td>Totaal alle vijven</td>
-          <td></td>
+          <td id="align-right">{{ calculateTopSide(5) }}</td>
         </tr>
         <tr>
           <td>Zessen</td>
           <td>Totaal alle zessen</td>
-          <td></td>
+          <td id="align-right">{{ calculateTopSide(6) }}</td>
         </tr>
       </thead>
     </table>
@@ -80,7 +80,7 @@
         <tr>
           <td>Chance</td>
           <td>Totaal 5 stenen</td>
-          <td id="align-right">{{ sumOfRolledNumbers }}</td>
+          <td id="align-right">{{ sumOfRolledNumbers() }}</td>
         </tr>
       </thead>
     </table>
@@ -92,10 +92,23 @@ export default {
   name: "Score",
 
   methods: {
-    //calculateTopSide() {},
+    calculateTopSide(number) {
+      let filteredDices = [];
+      filteredDices = this.dices.filter((diceValue) => diceValue === number);
+
+      const result = filteredDices.reduce(
+        (acc, diceValue) => acc + diceValue,
+        0
+      );
+      return result;
+    },
+
+    sumOfRolledNumbers() {
+      return this.dices.reduce((acc, diceValue) => acc + diceValue, 0);
+    },
 
     smallStraight() {
-      //return ["1234", "2345", "3456"].includes(this.dicesString) ? 30 : 0;
+      //return ["1234", "2345", "3456"].indexOf(this.dicesString) ? 30 : 0;
 
       let x = /1234|2345|3456/.test(this.dicesString().replace(/(.)\1/, "$1"));
       return x ? 30 : 0;
@@ -105,6 +118,7 @@ export default {
       let x = /12345|23456/.test(this.dicesString().replace(/(.)\1/, "$1"));
       return x ? 40 : 0;
     },
+
     dicesString() {
       return this.dices
         .slice()
@@ -116,27 +130,16 @@ export default {
   props: {},
 
   computed: {
-    sumOfRolledNumbers() {
-      // return this.rolledNumbers
-      //   .map((this.rolledNumber) => rolledNumber.value * rolledNumber.eyes)
-      //   .reduce((total, amount) => total + amount, 0);
-      let sum = 0;
-      for (const item in this.rolledNumbers) {
-        sum += this.rolledNumbers[item] * item;
-      }
-      return sum;
-    },
-
     threeOfAKind() {
       if (Object.values(this.rolledNumbers).find((element) => element >= 3)) {
-        return this.sumOfRolledNumbers;
+        return this.sumOfRolledNumbers();
       }
       return 0;
     },
 
     fourOfAKind() {
       if (Object.values(this.rolledNumbers).find((element) => element >= 4)) {
-        return this.sumOfRolledNumbers;
+        return this.sumOfRolledNumbers();
       }
       return 0;
     },
@@ -153,7 +156,7 @@ export default {
 
     yahtzee() {
       if (Object.values(this.rolledNumbers).find((element) => element == 5)) {
-        return this.sumOfRolledNumbers;
+        return this.sumOfRolledNumbers();
       }
       return 0;
     },
