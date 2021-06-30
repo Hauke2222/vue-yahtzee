@@ -108,8 +108,6 @@ export default {
     },
 
     smallStraight() {
-      //return ["1234", "2345", "3456"].indexOf(this.dicesString) ? 30 : 0;
-
       let x = /1234|2345|3456/.test(this.dicesString().replace(/(.)\1/, "$1"));
       return x ? 30 : 0;
     },
