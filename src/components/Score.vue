@@ -93,6 +93,7 @@ export default {
 
   methods: {
     calculateTopSide(number) {
+      // todo: gebruik this.rolledNumbers om de scores te berekenen
       let filteredDices = [];
       filteredDices = this.dices.filter((diceValue) => diceValue === number);
 
@@ -103,20 +104,24 @@ export default {
       return result;
     },
 
+    // todo: computed properties van maken
     sumOfRolledNumbers() {
       return this.dices.reduce((acc, diceValue) => acc + diceValue, 0);
     },
 
+    // todo: computed properties van maken  
     smallStraight() {
       let x = /1234|2345|3456/.test(this.dicesString().replace(/(.)\1/, "$1"));
       return x ? 30 : 0;
     },
 
+    // todo: computed properties van maken
     largeStraight() {
       let x = /12345|23456/.test(this.dicesString().replace(/(.)\1/, "$1"));
       return x ? 40 : 0;
     },
 
+    // todo: computed properties van maken
     dicesString() {
       return this.dices
         .slice()
