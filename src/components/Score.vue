@@ -65,12 +65,12 @@
         <tr>
           <td>Kleine Straat</td>
           <td>30 punten</td>
-          <td id="align-right">{{ smallStraight() }}</td>
+          <td id="align-right">{{ smallStraight }}</td>
         </tr>
         <tr>
           <td>Grote Straat</td>
           <td>40 punten</td>
-          <td id="align-right">{{ largeStraight() }}</td>
+          <td id="align-right">{{ largeStraight }}</td>
         </tr>
         <tr>
           <td>Yahtzee</td>
@@ -80,7 +80,7 @@
         <tr>
           <td>Chance</td>
           <td>Totaal 5 stenen</td>
-          <td id="align-right">{{ sumOfRolledNumbers() }}</td>
+          <td id="align-right">{{ sumOfRolledNumbers }}</td>
         </tr>
       </thead>
     </table>
@@ -93,56 +93,27 @@ export default {
 
   methods: {
     calculateTopSide(number) {
-      // todo: gebruik this.rolledNumbers om de scores te berekenen
-      let filteredDices = [];
-      filteredDices = this.dices.filter((diceValue) => diceValue === number);
-
-      const result = filteredDices.reduce(
-        (acc, diceValue) => acc + diceValue,
-        0
-      );
-      return result;
+      return this.rolledNumbers[number]
+        ? this.rolledNumbers[number] * number
+        : 0;
     },
+  },
 
-    // todo: computed properties van maken
+  computed: {
     sumOfRolledNumbers() {
       return this.dices.reduce((acc, diceValue) => acc + diceValue, 0);
     },
 
-    // todo: computed properties van maken  
-    smallStraight() {
-      let x = /1234|2345|3456/.test(this.dicesString().replace(/(.)\1/, "$1"));
-      return x ? 30 : 0;
-    },
-
-    // todo: computed properties van maken
-    largeStraight() {
-      let x = /12345|23456/.test(this.dicesString().replace(/(.)\1/, "$1"));
-      return x ? 40 : 0;
-    },
-
-    // todo: computed properties van maken
-    dicesString() {
-      return this.dices
-        .slice()
-        .sort()
-        .join("");
-    },
-  },
-
-  props: {},
-
-  computed: {
     threeOfAKind() {
       if (Object.values(this.rolledNumbers).find((element) => element >= 3)) {
-        return this.sumOfRolledNumbers();
+        return this.sumOfRolledNumbers;
       }
       return 0;
     },
 
     fourOfAKind() {
       if (Object.values(this.rolledNumbers).find((element) => element >= 4)) {
-        return this.sumOfRolledNumbers();
+        return this.sumOfRolledNumbers;
       }
       return 0;
     },
@@ -157,24 +128,41 @@ export default {
       return 0;
     },
 
+    smallStraight() {
+      let x = /1234|2345|3456/.test(this.dicesString.replace(/(.)\1/, "$1"));
+      return x ? 30 : 0;
+    },
+
+    largeStraight() {
+      let x = /12345|23456/.test(this.dicesString.replace(/(.)\1/, "$1"));
+      return x ? 40 : 0;
+    },
+
     yahtzee() {
       if (Object.values(this.rolledNumbers).find((element) => element == 5)) {
-        return this.sumOfRolledNumbers();
+        return this.sumOfRolledNumbers;
       }
       return 0;
+    },
+
+    dicesString() {
+      return this.dices
+        .slice()
+        .sort()
+        .join("");
     },
   },
 
   mounted() {
     this.$root.$on("clicked", (rolledNumbers, dices) => {
       this.rolledNumbers = rolledNumbers;
-      this.dices = dices;
+      this.dices = JSON.parse(JSON.stringify(dices));
     });
   },
 
   data() {
     return {
-      rolledNumbers: [],
+      rolledNumbers: {},
       dices: [],
     };
   },
