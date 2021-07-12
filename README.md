@@ -1,5 +1,7 @@
 # vue-yahtzee
 
+https://hauke2222.github.io/vue-yahtzee/
+
 ## Project setup
 ```
 npm install
